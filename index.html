@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Christ’s School Ado Ekiti – Christus Victor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f9fafb;
+            color: #1e293b;
+            scroll-behavior: smooth;
+            /* Background image from img folder (school environment) */
+            background-image: url('img/school-bg.png');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: relative;
+        }
+        /* Overlay for readability */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.85);
+            z-index: -1;
+        }
+        /* Navbar */
+        .navbar {
+            background: #0a2f44;
+            color: white;
+            padding: 0.8rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .logo-area img {
+            height: 60px;
+            width: auto;
+        }
+        .logo-area h2 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        .logo-area span {
+            font-size: 0.8rem;
+            display: block;
+            font-weight: 300;
+        }
+        .nav-links {
+            display: flex;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+            list-style: none;
+        }
+        .nav-links li {
+            position: relative;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 0;
+            display: inline-block;
+            transition: 0.2s;
+        }
+        .nav-links a:hover {
+            color: #ffd966;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background: white;
+            min-width: 180px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            top: 35px;
+            left: 0;
+            z-index: 10;
+        }
+        .dropdown-content a {
+            color: #0a2f44;
+            padding: 8px 16px;
+            display: block;
+            font-size: 0.9rem;
+        }
+        .dropdown-content a:hover {
+            background: #f1f5f9;
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        /* Marquee */
+        .marquee-container {
+            background: red;/*#ffb347;*/
+            color: white;/*#0a2f44;*/
+            padding: 8px 0;
+            font-weight: bold;
+            font-size: 1rem;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .marquee-text {
+            display: inline-block;
+            animation: marquee 15s linear infinite;
+            padding-left: 100%;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+        /* Hero */
+        .hero {
+            background: linear-gradient(rgba(10,47,68,0.7), rgba(10,47,68,0.7)), url('img/school-bg.png') center/cover no-repeat;
+            padding: 4rem 2rem;
+            text-align: center;
+            color: white;
+        }
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+        .btn {
+            background: #ffb347;
+            color: #0a2f44;
+            padding: 0.8rem 2rem;
+            border-radius: 40px;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+            transition: 0.2s;
+        }
+        .btn:hover {
+            background: #ff9f1c;
+            transform: scale(1.02);
+        }
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 20px;
+        }
+        .section-title {
+            font-size: 2rem;
+            color: #0a2f44;
+            border-left: 6px solid #ffb347;
+            padding-left: 20px;
+            margin-bottom: 1.8rem;
+        }
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 25px;
+            margin-bottom: 3rem;
+        }
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+            transition: 0.2s;
+            text-align: center;
+        }
+        .card i {
+            font-size: 2.5rem;
+            color: #ffb347;
+            margin-bottom: 1rem;
+        }
+        .houses {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin: 30px 0;
+        }
+        .house {
+            background: white;
+            border-radius: 20px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            width: 150px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            font-weight: bold;
+        }
+        .red { border-top: 6px solid #e63946; }
+        .blue { border-top: 6px solid #1e88e5; }
+        .green { border-top: 6px solid #2e7d32; }
+        .yellow { border-top: 6px solid #fbc02d; }
+        .purple { border-top: 6px solid #8e44ad; }
+        .anthem-box {
+            background: #f1f5f9;
+            padding: 1.8rem;
+            border-radius: 24px;
+            margin: 2rem 0;
+            text-align: center;
+            font-style: italic;
+        }
+        footer {
+            background: #0a2f44;
+            color: #cbd5e1;
+            padding: 2rem 2rem 1rem;
+            margin-top: 3rem;
+        }
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2rem;
+        }
+        .footer-content h4 {
+            color: white;
+            margin-bottom: 1rem;
+        }
+        .social-icons a {
+            color: white;
+            margin-right: 15px;
+            font-size: 1.4rem;
+            transition: 0.2s;
+        }
+        .social-icons a:hover {
+            color: #ffb347;
+        }
+        .copyright {
+            text-align: center;
+            border-top: 1px solid #2c5a74;
+            padding-top: 1.5rem;
+            margin-top: 1.5rem;
+            font-size: 0.8rem;
+        }
+        @media (max-width: 800px) {
+            .navbar {
+                flex-direction: column;
+                gap: 12px;
+            }
+            .nav-links {
+                justify-content: center;
+                gap: 1rem;
+            }
+            .hero h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body oncontextmenu="return false;">
+
+<!-- Marquee Announcement -->
+<div class="marquee-container">
+    <div class="marquee-text">
+        🎓 CHRIST’S SCHOOL, ADO EKITI – CHRISTUS VICTOR 🎓 | ADMISSION FOR 2025/2026 ACADEMIC SESSION IS NOW IN PROGRESS. APPLY ONLINE OR VISIT THE ADMISSIONS OFFICE. 🎓
+    </div>
+</div>
+
+<!-- Navigation Bar with School Logo -->
+<div class="navbar">
+    <div class="logo-area">
+        <img src="img/school-logo.png" alt="Christ's School Logo">
+        <div>
+            <h2>CHRIST’S SCHOOL<br><span>Ado Ekiti – Christus Victor</span></h2>
+        </div>
+    </div>
+    <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li class="dropdown">
+            <a href="#">Resources <i class="fas fa-caret-down"></i></a>
+            <div class="dropdown-content">
+                <a href="#history">History</a>
+                <a href="#anthem">School Anthem</a>
+                <a href="#alumni">Alumni</a>
+            </div>
+        </li>
+        <li class="dropdown">
+            <a href="#">Activities <i class="fas fa-caret-down"></i></a>
+            <div class="dropdown-content">
+                <a href="#sports">Inter‑House Sports</a>
+                <a href="#events">Events</a>
+                <a href="#competitions">Competitions</a>
+            </div>
+        </li>
+        <li><a href="#contact">Contact</a></li>
+
+         <li class="dropdown">
+            <a href="#">E -Portal <i class="fas fa-caret-down"></i></a>
+            <div class="dropdown-content">
+                <a href="login.html">CBT PORTAL</a>
+                <a href="report_login.html">REPORT SHEET </a>
+                <a href="Teachers_login.html">TEACHERS PORTAL</a>
+            </div>
+        </li>
+    </ul>
+</div>
+
+<!-- Hero Section (optional, but keeps background consistent) -->
+<section id="home">
+    <div class="hero">
+        <h1>Christ’s School, Ado Ekiti</h1>
+         <p>Not In Name Only For the sake of Christ whose name we bear</p>
+        <p>Legacy of Light and Learning · Founded 1933 by Archdeacon Henry Dallimore</p>
+        <a href="#history" class="btn">Discover Our Heritage</a>
+    </div>
+</section>
+
+<div class="container">
+    <section id="about">
+        <h2 class="section-title">About the School</h2>
+        <p style="margin-bottom: 1.5rem;">Christ’s School, Ado Ekiti, is a prestigious government‑owned co‑educational secondary school in Ekiti State, Nigeria. Established in 1933 by Archdeacon Henry Dallimore of the Church Missionary Society (CMS), the school has produced outstanding leaders, neurosurgeons, governors, and academics. Our motto <strong>“Christus Victor” (Christ the Victor)</strong> drives excellence in academics, character, and service.</p>
+    </section>
+
+    <section id="history">
+        <h2 class="section-title"> History of Christ’s School, Ado-Ekiti</h2>
+        <div style="background: #fff; border-radius: 20px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+            <p>Christ’s School was founded as a co‑educational institution by <strong>Archdeacon Henry Dallimore</strong> in 1933 on the site that now belongs to Ekiti Diocesan Anglican Headquarters. Originally conceived as model Ekiti CMS Central School, it was moved to its present site in 1936. During the commissioning of the School’s new premises in June 1936, the Governor Sir Bernard Bourdillon renamed the School as <strong>“CHRIST’S SCHOOL, ADO-EKITI”</strong>. Until 1941, the School only ran a two‑year Senior Elementary School course.</p>
+            <p style="margin-top: 12px;">In 1942‑1943, the School was upgraded to Secondary Class status with Ven. Henry Dallimore as the High Master (Principal) and Mr. (later Bishop) J.A.I. Falope as First Master. In 1948, 7 ‘unofficial’ candidates were prepared and privately enrolled for the Senior Cambridge School Certificate Examinations – <strong>ALL PASSED</strong>. This feat enabled Form VI students to officially sit for Cambridge exams at Ilesha Grammar School. Rev. L.D. Mason arrived in 1948 and changed the title from High Master to Principal.</p>
+            <p style="margin-top: 12px;">The former Ekiti Anglican Girl’s Secondary School (EAGSS), founded in 1955, was officially merged with Christ’s School in 1966. The union was dissolved in 1979, and the girls’ school became Christ’s Girls’ School. Over the decades, notable principals included Chief R.A. Ogunlade (first indigenous Principal), Mr. S.O. Agbebi, Chief Olusola Bayode, Mr. Kehinde Ojo (alumnus), and others. The school continues to receive tremendous support from the Alumni Association, Class Sets, and the State Government.</p>
+            <p style="margin-top: 12px;"><em>– Culled from the school website</em></p>
+        </div>
+    </section>
+
+    <section id="anthem">
+        <h2 class="section-title">🎵 School Anthem</h2>
+        <div class="anthem-box">
+            <p><strong>Christ’s School, The place among mountains,<br>
+            The only child of dallimore.<br>
+            Born in year 1933,<br>
+            Birds Angels and mountains .<br>
+            Sing our song Oh Christ's school,<br>
+            The name so lovely Christ's school.<br>
+            The place so lovel Christ’s School,<br>
+            The School that comes on top.......</strong></p>
+            <p style="margin-top: 10px;">(Full anthem – a legacy of honour and discipline)</p>
+        </div>
+    </section>
+
+    <section id="sports">
+        <h2 class="section-title">🏆 Inter‑House Sports Competitions</h2>
+        <p>Annually, our students compete fiercely in athletics, football, and field events under five spirited houses:</p>
+        <div class="houses">
+            <div class="house red"><i class="fas fa-fire"></i> RED HOUSE<br> BABAMBONI HOUSE</div>
+            <div class="house blue"><i class="fas fa-water"></i> BLUE HOUSE<br>  MASON HOUSE</div>
+            <div class="house green"><i class="fas fa-leaf"></i> GREEN HOUSE<br> DALLIMORE HOUSE</div>
+            <div class="house yellow"><i class="fas fa-sun"></i> YELLOW HOUSE<br> HARDING HOUSE</div>
+            <div class="house purple"><i class="fas fa-crown"></i> PURPLE HOUSE<br>OGUNLDE HOUSE</div>
+        </div>
+        <p style="text-align: center;">The annual sports fiesta strengthens camaraderie and showcases budding athletes. Trophies, medals, and the coveted <strong>Overall House Championship</strong> are awarded.</p>
+    </section>
+
+    <section id="events">
+        <h2 class="section-title">📅 Upcoming Events & Competitions</h2>
+        <div class="card-grid">
+            <div class="card">
+                <i class="fas fa-chalkboard-user"></i>
+                <h3>Academic Quiz League</h3>
+                <p>Inter‑class competition – May 2026. Subjects: Maths, Science, Current Affairs.</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-futbol"></i>
+                <h3>House Sports Finals</h3>
+                <p>Track & Field, Football, Relay – 15th June 2026. Cheer your house!</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-microphone-alt"></i>
+                <h3>Debate Championship</h3>
+                <p>Theme: "Technology and National Development". Open to all classes.</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-palette"></i>
+                <h3>Creative Arts Week</h3>
+                <p>Drama, music, and art exhibition – celebrating talents.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="alumni">
+        <h2 class="section-title">👥 Old Students’ Association (Alumni)</h2>
+        <div style="background: #eef2ff; border-radius: 24px; padding: 2rem; text-align: center;">
+            <i class="fas fa-users" style="font-size: 3rem; color: #ffb347;"></i>
+            <p style="margin: 1rem 0;">The Christ’s School Old Students’ Association (CSOSA) maintains a vibrant network across the globe. Reunions, mentorship programmes, and infrastructural development are our pride. Join the alumni directory and stay connected.</p>
+            <a href="#" style="background: #0a2f44; color: white; padding: 10px 25px; border-radius: 40px; text-decoration: none;">Join Alumni Portal</a>
+        </div>
+    </section>
+
+    <section id="contact">
+        <h2 class="section-title">📍 Contact & Location</h2>
+        <div style="display: flex; flex-wrap: wrap; gap: 2rem; justify-content: space-between;">
+            <div>
+                <p><i class="fas fa-map-marker-alt"></i> <strong>Address:</strong> Dallimore Road, Along Iyin Road, Ado Ekiti, Ekiti State, Nigeria.</p>
+                <p><i class="fas fa-phone-alt"></i> <strong>Phone:</strong> +234 803 123 4567</p>
+                <p><i class="fas fa-envelope"></i> <strong>Email:</strong> info@christschoolado.edu.ng</p>
+                <p><i class="fas fa-globe"></i> <strong>Website:</strong> www.christschoolado.ng</p>
+            </div>
+            <div>
+                <iframe src="https://maps.google.com/maps?q=Christ%27s%20School%20Ado%20Ekiti&t=&z=14&ie=UTF8&iwloc=&output=embed" width="100%" height="200" style="border:0; border-radius: 12px;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </div>
+    </section>
+</div>
+
+<footer>
+    <div class="footer-content">
+        <div>
+            <h4>Christ’s School Ado Ekiti</h4>
+            <p>Christus Victor – A legacy of academic and moral excellence since 1933.</p>
+        </div>
+        <div>
+            <h4>Quick Links</h4>
+            <ul style="list-style: none;">
+                <li><a href="#history" style="color:#cbd5e1;">History</a></li>
+                <li><a href="#anthem" style="color:#cbd5e1;">School Anthem</a></li>
+                <li><a href="#alumni" style="color:#cbd5e1;">Alumni</a></li>
+                <li><a href="#sports" style="color:#cbd5e1;">Inter‑House Sports</a></li>
+            </ul>
+        </div>
+        <div>
+            <h4>Follow Us</h4>
+            <div class="social-icons">
+                <a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-youtube"></i></a>
+            </div>
+            <p style="margin-top: 15px;">Official Alumni Group: <strong>CSOSA Global</strong></p>
+        </div>
+    </div>
+    <div class="copyright">
+        <p>&copy; 2026 Christ’s School, Ado Ekiti. Designed with <i class="fas fa-heart" style="color:#ffb347;"></i> by the CSOSA Tech Team.</p>
+        <p>Powered by faith, honour, and excellence.</p>
+    </div>
+</footer>
+
+</body>
+</html>
