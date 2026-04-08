@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Dashboard | Christ’s School Ado Ekiti</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: url('img/school-bg.png') no-repeat center center fixed;
+            background-size: cover;
+            min-height: 100vh;
+            position: relative;
+        }
+        /* Dark overlay for text readability */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.65);
+            z-index: 0;
+        }
+        .dashboard-container {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        /* School logo top center */
+        .school-logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .school-logo img {
+            width: 110px;
+            height: auto;
+            background: white;
+            border-radius: 50%;
+            padding: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        /* Profile card */
+        .profile-card {
+            background: white;
+            border-radius: 32px;
+            padding: 2rem;
+            text-align: center;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 20px 35px rgba(0,0,0,0.2);
+            margin: 0 auto;
+        }
+        .profile-img {
+            width: 130px;
+            height: 130px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid #ffb347;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .profile-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        h2 {
+            color: #0a2f44;
+            margin-bottom: 8px;
+        }
+        .status {
+            background: #d4edda;
+            color: #155724;
+            padding: 6px 12px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            display: inline-block;
+            margin: 15px 0;
+        }
+        .logout-btn {
+            background: #0a2f44;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: 0.2s;
+        }
+        .logout-btn:hover {
+            background: #ffb347;
+            color: #0a2f44;
+        }
+        footer {
+            margin-top: 30px;
+            color: white;
+            font-size: 0.8rem;
+            text-align: center;
+        }
+        @media (max-width: 500px) {
+            .profile-card {
+                padding: 1.5rem;
+            }
+            .profile-img {
+                width: 100px;
+                height: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="dashboard-container">
+    <div class="school-logo">
+        <img src="img/school-logo.png" alt="Christ's School Logo">
+    </div>
+    <div class="profile-card" id="profileCard">
+        <div class="profile-img">
+            <img id="studentImage" src="img/default.jpg" alt="Student Photo">
+        </div>
+        <h2 id="studentName">Student Name</h2>
+        <div class="status"><i class="fas fa-check-circle"></i> Fees Paid – Full Access</div>
+        <p>Welcome to your portal. You can access all academic resources.</p>
+        <button class="logout-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+    </div>
+    <footer>Christ’s School Ado Ekiti – Christus Victor</footer>
+</div>
+
+<script>
+    // Retrieve logged-in user data from localStorage
+    const userData = JSON.parse(localStorage.getItem('loggedInUser'));
+    if (!userData || userData.paid !== true) {
+        // If not logged in or unpaid, redirect to login
+        window.location.href = 'login.html';
+    }
+
+    // Display student name and image
+    document.getElementById('studentName').textContent = userData.username;
+    // Image path: images are stored in img folder
+    const imgPath = `img/${userData.image}`;
+    document.getElementById('studentImage').src = imgPath;
+    // Fallback if image not found
+    document.getElementById('studentImage').onerror = function() {
+        this.src = 'img/default.jpg';
+    };
+
+    function logout() {
+        localStorage.removeItem('loggedInUser');
+        window.location.href = 'login.html';
+    }
+</script>
+</body>
+</html>

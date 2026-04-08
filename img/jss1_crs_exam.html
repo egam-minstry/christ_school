@@ -1,0 +1,1492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="fav_icon2.ico">
+    <title>CRS Examination | Christ’s School Ado Ekiti</title>
+    <script>
+        // Disable back navigation with password protection
+        history.pushState(null, null, location.href);
+        window.onpopstate = function () {
+            history.go(1);
+        };
+
+        let backClickCount = 0;
+        let allowBack = false;
+
+        history.pushState(null, null, location.href);
+
+        window.onpopstate = function () {
+            if (!allowBack) {
+                backClickCount++;
+
+                if (backClickCount >= 50) {
+                    allowBack = true;
+                    alert("You have tried 50 times. Going back now...");
+                    history.back();
+                    return;
+                }
+
+                showBackModal();
+            }
+        };
+
+        function showBackModal() {
+            document.getElementById("backModalOverlay").style.display = "flex";
+            document.getElementById("passwordContainer").style.display = "none";
+            document.getElementById("backPassword").value = "";
+           
+            document.getElementById("modalButtons").innerHTML = `
+                <button onclick="handleYes()" style="padding: 10px 20px; margin: 5px; border: none; border-radius: 5px; background: limegreen; color: white; font-size: 16px; cursor: pointer;">Yes</button>
+                <button onclick="closeBackModal()" style="padding: 10px 20px; margin: 5px; border: none; border-radius: 5px; background: crimson; color: white; font-size: 16px; cursor: pointer;">No</button>
+            `;
+        }
+
+        function closeBackModal() {
+            document.getElementById("backModalOverlay").style.display = "none";
+            history.pushState(null, null, location.href);
+        }
+
+        function handleYes() {
+            document.getElementById("passwordContainer").style.display = "block";
+            document.getElementById("modalButtons").innerHTML = `
+                <button onclick="checkPassword()" style="padding: 10px 20px; margin: 5px; border: none; border-radius: 5px; background: limegreen; color: white; font-size: 16px; cursor: pointer;">Submit</button>
+                <button onclick="closeBackModal()" style="padding: 10px 20px; margin: 5px; border: none; border-radius: 5px; background: crimson; color: white; font-size: 16px; cursor: pointer;">Cancel</button>
+            `;
+        }
+
+        function checkPassword() {
+            const correctPassword = "admin123";
+            const enteredPassword = document.getElementById("backPassword").value;
+
+            if (enteredPassword === correctPassword) {
+                allowBack = true;
+                document.getElementById("backModalOverlay").style.display = "none";
+                history.back();
+            } else {
+                alert("Incorrect password. Staying on this page.");
+                closeBackModal();
+            }
+        }
+    </script>
+    <style>
+        /* All your existing styles – kept exactly as you provided */
+        body {
+            position: relative;
+            z-index: 1;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f8f0;
+        }
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('img/school-logo.png') no-repeat center center;
+            background-size: 300px 300px;
+            opacity: 0.1;
+            z-index: 0;
+            pointer-events: none;
+        }
+        #logout-container {
+            text-align: right;
+            padding: 10px;
+            background: #2c3e50;
+        }
+        #datetime {
+            color: gold;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            margin: 10px 0;
+        }
+        #logout {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 5px;
+        }
+        #header {
+            padding: 20px;
+            background: linear-gradient(to right, rgb(150,150,250), grey);
+            color: white;
+            border-bottom: 5px solid #ff9800;
+        }
+        #logo {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            position: relative;
+            padding: 20px 0;
+        }
+        #logo img:not(.logo-left img):not(.logo-right img) {
+            max-width: 200px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+        }
+        .logo-left {
+            flex: 0 0 auto;
+            z-index: 1;
+            margin-left: 20px;
+        }
+        .logo-right {
+            flex: 0 0 auto;
+            z-index: 1;
+            margin-right: 20px;
+        }
+        .logo-left img,
+        .logo-right img {
+            max-width: 100px;
+            height: auto;
+            display: block;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+        .logo-left img:hover,
+        .logo-right img:hover {
+            transform: scale(1.1);
+        }
+        @media (max-width: 768px) {
+            #logo {
+                flex-direction: column;
+                gap: 15px;
+                padding: 10px 0;
+            }
+            #logo img:not(.logo-left img):not(.logo-right img) {
+                position: static;
+                transform: none;
+                margin: 10px auto;
+            }
+            .logo-left, .logo-right {
+                margin: 5px 0;
+            }
+            .logo-left img,
+            .logo-right img {
+                max-width: 80px;
+            }
+        }
+        #student-info {
+            margin-top: 20px;
+            text-align: center;
+        }
+        #student-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: block;
+            margin: 0 auto 10px;
+            border: 3px solid white;
+            background: #ddd;
+        }
+        #welcome-message {
+            color: #ffeb3b;
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .student-info {
+            margin-top: 15px;
+        }
+        .timer {
+            font-size: 24px;
+            font-weight: bold;
+            color: #e74c3c;
+            text-align: center;
+            margin: 10px 0;
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-radius: 5px;
+            border: 2px solid #e74c3c;
+        }
+        .section-tabs {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .section-tab {
+            padding: 12px 24px;
+            margin: 0 10px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .section-tab.active {
+            background-color: #2e7d32;
+            color: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .section-tab:not(.active) {
+            background-color: #e0e0e0;
+            color: #333;
+        }
+        .question-area {
+            margin: 20px 0;
+        }
+        #questionText {
+            width: 98%;
+            min-height: 100px;
+            resize: none;
+            padding: 15px;
+            font-size: 18px;
+            color: white;
+            background-color: black;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            margin-bottom: 15px;
+            font-family: Arial, "Segoe UI Symbol", "Apple Symbols", sans-serif;
+        }
+        .options {
+            margin: 15px 0;
+        }
+        .option {
+            display: block;
+            margin: 10px 0;
+            padding: 12px;
+            background-color: #f5f5f5;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .option:hover {
+            background-color: #e8f5e8;
+        }
+        .option input {
+            margin-right: 15px;
+            transform: scale(1.3);
+        }
+        .option label {
+            font-weight: bold;
+            font-size: 16px;
+            color: #333;
+            font-family: Arial, "Segoe UI Symbol", "Apple Symbols", sans-serif;
+        }
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        button {
+            padding: 12px 25px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-weight: bold;
+        }
+        .nav-buttons button {
+            background: #2e7d32;
+            color: white;
+        }
+        .nav-buttons button:hover {
+            background: #1b5e20;
+        }
+        .question-buttons {
+            margin: 15px 0;
+            text-align: center;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 5px;
+        }
+        .question-btn {
+            margin: 3px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid #444;
+            cursor: pointer;
+            font-weight: bold;
+            background-color: #eee;
+            min-width: 40px;
+            transition: all 0.3s;
+        }
+        .question-btn:hover {
+            background-color: #d0f0d0;
+        }
+        .submit-btn {
+            background: #28a745;
+            width: 100%;
+            margin-top: 20px;
+            color: white;
+        }
+        .submit-btn:hover {
+            background: #218838;
+        }
+        #theorySection {
+            display: none;
+            background: #fff9e6;
+            color: #333;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px auto;
+            width: 80%;
+            border: 2px solid #ff9800;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        #theoryQuestionText {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 15px;
+            line-height: 1.6;
+            padding: 15px;
+            background-color: #fff;
+            border-radius: 5px;
+            border-left: 5px solid #ff9800;
+        }
+        #theoryAnswer {
+            width: 100%;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            resize: vertical;
+            min-height: 200px;
+            margin-bottom: 15px;
+        }
+        .theory-nav-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        .theory-btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .theory-save-btn {
+            background-color: #28a745;
+            color: white;
+        }
+        .theory-prev-btn, .theory-next-btn {
+            background-color: #007bff;
+            color: white;
+        }
+        .theory-submit-btn {
+            background-color: #dc3545;
+            color: white;
+        }
+        .theory-status {
+            text-align: center;
+            margin: 10px 0;
+            font-weight: bold;
+            padding: 10px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+        }
+        .windows-activate {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 14px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin: 20px;
+        }
+        .exam-info {
+            text-align: center;
+            font-weight: bold;
+            margin: 10px 0;
+            color: #2c3e50;
+            font-size: 18px;
+        }
+        .marquee-container {
+            width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+            background: rgb(10,15,150);
+            padding: 10px 0;
+        }
+        .marquee-text {
+            display: inline-block;
+            color: gold;
+            font-size: 24px;
+            font-weight: bold;
+            animation: marquee 10s linear infinite;
+        }
+        @keyframes marquee {
+            from { transform: translateX(100%); }
+            to { transform: translateX(-100%); }
+        }
+        /* Back modal */
+        #backModalOverlay {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            font-family: Arial, sans-serif;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        #backModal {
+            background: #222;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+        }
+        #backModal p {
+            font-size: 18px;
+            margin: 0 0 10px;
+        }
+        #backPassword {
+            padding: 10px;
+            width: 80%;
+            margin-top: 10px;
+            border-radius: 5px;
+            border: none;
+            font-size: 16px;
+        }
+        @media (max-width: 700px) {
+            .container {
+                width: 95%;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body oncontextmenu="return false">
+<div id="backModalOverlay">
+    <div id="backModal">
+        <p>Do you really want to go back?</p>
+        <div id="passwordContainer" style="display: none;">
+            <p>Enter password to go back:</p>
+            <input type="password" id="backPassword" placeholder="Enter password">
+        </div>
+        <div id="modalButtons">
+            <button onclick="handleYes()" style="padding: 10px 20px; margin: 5px; border: none; border-radius: 5px; background: limegreen; color: white; font-size: 16px; cursor: pointer;">Yes</button>
+            <button onclick="closeBackModal()" style="padding: 10px 20px; margin: 5px; border: none; border-radius: 5px; background: crimson; color: white; font-size: 16px; cursor: pointer;">No</button>
+        </div>
+    </div>
+</div>
+
+<div id="header">
+    <div id="logout-container">
+        <button id="logout" onclick="logout()">Logout</button>
+        <div class="marquee-container">
+            <span class="marquee-text">CHRIST'S SCHOOL ADO EKITI : CHRISTUS VICTOR</span>
+        </div>
+    </div>
+    <div id="logo">
+        <div class="logo-left">
+            <img src="img/school-logo.png" alt="Left Logo">
+        </div>
+        <img src="img/school-logo.png" alt="Main Logo">
+        <div class="logo-right">
+            <img src="img/school-logo.png" alt="Right Logo">
+        </div>
+    </div>
+    <div id="student-info">
+        <center><strong>ATTENTION! CLICK ON SUBMIT BUTTON BEFORE YOUR TIME IS UP TO SAVE YOUR SCORE</strong></center>
+        <center><p id="datetime"></p></center>
+        <div id="welcome-message">
+            <label id="usernameDisplay"></label>
+        </div>
+        <div class="student-info">
+            <img id="studentAvatar" src="img/default.jpg" alt="Student" style="width:120px; height:120px; border-radius:50%; border:3px solid #008000; display:block; margin:0 auto;">
+            <h2 id="studentNameDisplay">Student Name</h2>
+        </div>
+        <center><h3>CHRIST'S SCHOOL DALIMMORE, ADO EKITI</h3></center>
+        <center><h3>THIRD TERM EXAMINATION 2025/2026 ACADEMIC SESSION</h3></center>
+    </div>
+</div>
+
+<div class="exam-container" style="margin: 20px auto; width: 80%; padding: 20px; background-color: rgba(255,255,255,0.9); border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+    <div class="header">
+        <div class="timer" id="timer">Time Remaining: 90:00</div>
+    </div>
+
+    <div class="section-tabs">
+        <button class="section-tab active" id="objectivesBtn" onclick="showSection('objectives')">Objectives</button>
+        <button class="section-tab" id="theoryBtn" onclick="showSection('theory')">Theory</button>
+    </div>
+
+    <!-- OBJECTIVES SECTION -->
+    <div id="objectivesSection">
+        <div class="question-area">
+            <p id="questionText">Loading...</p>
+            <div id="questionImageContainer"></div>
+            <div class="options" id="optionsContainer"></div>
+        </div>
+        <div class="question-buttons" id="questionButtons"></div>
+        <div class="nav-buttons">
+            <button onclick="prevQuestion()">← Previous</button>
+            <button onclick="nextQuestion()">Next →</button>
+        </div>
+        <div style="text-align: center; margin-top: 10px;">
+            <span id="answeredLabel"></span> | <span id="unansweredLabel"></span>
+        </div>
+    </div>
+
+    <!-- THEORY SECTION -->
+    <div id="theorySection" style="display: none;">
+        <div class="question-area">
+            <p id="theoryQuestionText"></p>
+            <div id="theoryImageContainer"></div>
+            <textarea id="theoryAnswer" rows="6" placeholder="Write your answer here..."></textarea>
+            <button onclick="saveTheoryAnswer()" style="background: #28a745; color: white; margin-top: 10px;">Save Answer</button>
+        </div>
+        <div class="nav-buttons">
+            <button onclick="prevTheoryQuestion()">← Previous</button>
+            <button onclick="nextTheoryQuestion()">Next →</button>
+        </div>
+        <div style="text-align: center; margin-top: 10px;">
+            <span id="theoryStatus"></span>
+        </div>
+    </div>
+
+    <button class="submit-btn" onclick="submitExam()">Submit Exam</button>
+    <footer style="text-align: center; margin-top: 20px;">Christ’s School Ado Ekiti – Christus Victor</footer>
+</div>
+
+<script>
+    // ================== AUTHENTICATION ==================
+    const studentUsername = localStorage.getItem('studentUsername');
+    const studentImage = localStorage.getItem('studentImage') || 'default.jpg';
+    const studentClass = localStorage.getItem('studentClass');
+
+    //if (!studentUsername) {
+        //alert('You are not logged in. Please log in first.');
+        //window.location.href = 'login.html';
+    //}
+
+    // Display student info
+    document.getElementById('studentNameDisplay').innerText = studentUsername;
+    document.getElementById('usernameDisplay').innerText = studentUsername;
+    const avatar = document.getElementById('studentAvatar');
+    avatar.src = `img/${studentImage}`;
+    avatar.onerror = () => avatar.src = 'img/default.jpg';
+
+     const staticObjectivesQuestions = [
+        {
+          "id": 1,
+          "question": "Who were the first two disciples Jesus called by the Sea of Galilee?",
+          "options": {
+            "A": "James and John",
+            "B": "Peter and Andrew",
+            "C": "Matthew and Thomas",
+            "D": "Philip and Bartholomew"
+          },
+          "answer": "B",
+          "image": null
+        },
+        {
+          "id": 2,
+          "question": "In Luke 5:1-11, what were Simon Peter and his partners doing when Jesus called them?",
+          "options": {
+            "A": "Praying",
+            "B": "Mending their nets",
+            "C": "Washing their nets",
+            "D": "Fishing"
+          },
+          "answer": "C",
+          "image": null
+        },
+        {
+          "id": 3,
+          "question": "How many disciples did Jesus call to be apostles in Mark 3:13-19?",
+          "options": {
+            "A": "Seven",
+            "B": "Ten",
+            "C": "Twelve",
+            "D": "Seventy"
+          },
+          "answer": "C",
+          "image": null
+        },
+        {
+          "id": 4,
+          "question": "Which of these was NOT one of the twelve apostles?",
+          "options": {
+            "A": "Simon the Zealot",
+            "B": "Judas Iscariot",
+            "C": "John the Baptist",
+            "D": "James son of Alphaeus"
+          },
+          "answer": "C",
+          "image": null
+        },
+        {
+          "id": 5,
+          "question": "What was the former occupation of Matthew the apostle?",
+          "options": {
+            "A": "Fisherman",
+            "B": "Shepherd",
+            "C": "Tax collector",
+            "D": "Tentmaker"
+          },
+          "answer": "C",
+          "image": null
+        },
+        {
+          "id": 6,
+          "question": "According to Luke 9:57-62, what did Jesus say to the man who wanted to first bury his father?",
+          "options": {
+            "A": "\"Come, follow me.\"",
+            "B": "\"Let the dead bury their own dead.\"",
+            "C": "\"Go and sell all you have.\"",
+            "D": "\"Your faith has saved you.\""
+          },
+          "answer": "B",
+          "image": null
+        },
+        {
+          "id": 7,
+          "question": "Jesus said, \"If anyone comes to me and does not hate his father and mother...\" What does 'hate' in this context (Lk 14:26) primarily mean?",
+          "options": {
+            "A": "To despise them",
+            "B": "To love them less by comparison",
+            "C": "To abandon them",
+            "D": "To disobey them"
+          },
+          "answer": "B",
+          "image": null
+        },
+        {
+          "id": 8,
+          "question": "What did Jesus say a person must do to be His disciple, as in Luke 14:33?",
+          "options": {
+            "A": "Pray without ceasing",
+            "B": "Give up all his possessions",
+            "C": "Fast twice a week",
+            "D": "Renounce all his family"
+          },
+          "answer": "B",
+          "image": null
+        },
+        {
+          "id": 9,
+          "question": "The Beatitudes are found in which book of the Bible?",
+          "options": {
+            "A": "Mark",
+            "B": "Luke",
+            "C": "John",
+            "D": "Matthew"
+          },
+          "answer": "D",
+          "image": null
+        },
+        {
+          "id": 10,
+          "question": "\"Blessed are the poor in spirit, for theirs is the ______.\"",
+          "options": {
+            "A": "kingdom of heaven",
+            "B": "earth",
+            "C": "comfort",
+            "D": "mercy"
+          },
+          "answer": "A",
+          "image": null
+        },
+        {
+          "id": 11,
+          "question": "\"Blessed are the peacemakers, for they will be called ______.\"",
+          "options": {
+            "A": "sons of God",
+            "B": "children of light",
+            "C": "wise ones",
+            "D": "righteous"
+          },
+          "answer": "A",
+          "image": null
+        },
+        {
+          "id": 12,
+          "question": "Which Beatitude promises that the pure in heart will see God?",
+          "options": {
+            "A": "The fifth",
+            "B": "The sixth",
+            "C": "The seventh",
+            "D": "The eighth"
+          },
+          "answer": "B",
+          "image": null
+        },
+        {
+          "id": 13,
+          "question": "Jesus told His followers, \"You are the ______ of the earth.\"",
+          "options": {
+            "A": "light",
+            "B": "salt",
+            "C": "seed",
+            "D": "vine"
+          },
+          "answer": "B",
+          "image": null
+        },
+        {
+          "id": 14,
+          "question": "If salt loses its saltiness, how can it be made salty again? (Matt 5:13).",
+          "options": {
+            "A": "By adding more salt",
+            "B": "By washing it",
+            "C": "It is no longer good for anything",
+            "D": "By mixing it with sugar"
+          },
+          "answer": "C",
+          "image": null
+        },
+        {
+          "id": 15,
+          "question": "Christians are the light of the world. A city on a hill cannot be ______.",
+          "options": {
+            "A": "built",
+            "B": "hidden",
+            "C": "destroyed",
+            "D": "moved"
+          },
+          "answer": "B",
+          "image": null
+        },
+        {
+          "id": 16,
+          "question": "According to Jesus in Matthew 5:16, our good deeds should cause people to ______.",
+          "options": {
+            "A": "glorify our Father in heaven",
+            "B": "envy us",
+            "C": "praise us",
+            "D": "give us money"
+          },
+          "answer": "A",
+          "image": null
+        },
+        {
+          "id": 17,
+          "question": "What was the Old Testament law regarding revenge? (Matt 5:38)",
+          "options": {
+            "A": "\"Love your neighbour\"",
+            "B": "\"An eye for an eye\"",
+            "C": "\"Turn the other cheek\"",
+            "D": "\"Do not resist an evil person\""
+          },
+          "answer": "B",
+          "image": null
+        },
+        {
+          "id": 18,
+          "question": "Jesus taught that if someone slaps you on the right cheek, you should ______.",
+          "options": {
+            "A": "slap him back",
+            "B": "run away",
+            "C": "turn to him the other cheek",
+            "D": "report him to the authorities"
+          },
+          "answer": "C",
+          "image": null
+        },
+        {
+          "id": 19,
+          "question": "If someone wants to sue you and take your tunic, you should also let him have your ______.",
+          "options": {
+            "A": "shoes",
+            "B": "house",
+            "C": "cloak",
+            "D": "money"
+          },
+          "answer": "C",
+          "image": null
+        },
+        {
+          "id": 20,
+          "question": "Jesus taught that we should give to the one who asks and not turn away from the one who wants to ______.",
+          "options": {
+            "A": "fight us",
+            "B": "borrow from us",
+            "C": "teach us",
+            "D": "sell to us"
+          },
+          "answer": "B",
+          "image": null
+        },
+        {
+          "id": 21,
+          "question": "When praying, Jesus warned against being like the ______ who love to pray publicly.",
+          "options": {
+            "A": "Pharisees",
+            "B": "Sadducees",
+            "C": "Scribes",
+            "D": "Herodians"
+          },
+          "answer": "A",
+          "image": null
+        },
+        {
+          "id": 22,
+          "question": "Where should you go to pray in secret, according to Matthew 6:6?",
+          "options": {
+            "A": "Synagogue",
+            "B": "Street corner",
+            "C": "Your room",
+            "D": "Mountain top"
+          },
+          "answer": "C",
+          "image": null
+        },
+        {
+          "id": 23,
+          "question": "How did Jesus say we should address God in prayer?",
+          "options": {
+            "A": "\"Master\"",
+            "B": "\"Our Father\"",
+            "C": "\"Almighty King\"",
+            "D": "\"Holy One\""
+          },
+          "answer": "B",
+          "image": null
+        },
+        {
+          "id": 24,
+          "question": "When fasting, what should you do so others won't know?",
+          "options": {
+            "A": "Announce it",
+            "B": "Wash your face and look normal",
+            "C": "Wear sackcloth",
+            "D": "Put ashes on your head"
+          },
+          "answer": "B",
+          "image": null
+        },
+        {
+          "id": 25,
+          "question": "According to Matthew 6:14-15, if you forgive others, who will forgive you?",
+          "options": {
+            "A": "The church",
+            "B": "Your heavenly Father",
+            "C": "The priest",
+            "D": "Your friends"
+          },
+          "answer": "B",
+          "image": null
+        },
+        {
+          "id": 26,
+          "question": "Where should we store our treasures according to Jesus? (Matt 6:19-20)",
+          "options": {
+            "A": "In banks",
+            "B": "In heaven",
+            "C": "In hidden safes",
+            "D": "In our houses"
+          },
+          "answer": "B",
+          "image": null
+        },
+        {
+          "id": 27,
+          "question": "What did Jesus say happens where our treasure is?",
+          "options": {
+            "A": "Our work will be there",
+            "B": "Our family will be there",
+            "C": "Our heart will be also",
+            "D": "Our future will be there"
+          },
+          "answer": "C",
+          "image": null
+        },
+        {
+          "id": 28,
+          "question": "\"No one can serve two masters... You cannot serve both God and ______.\"",
+          "options": {
+            "A": "Caesar",
+            "B": "Money",
+            "C": "Pleasure",
+            "D": "Power"
+          },
+          "answer": "B",
+          "image": null
+        },
+        {
+          "id": 29,
+          "question": "In Matthew 6:25-34, what did Jesus tell His followers not to worry about?",
+          "options": {
+            "A": "Their spiritual gifts",
+            "B": "Their life, food, and clothing",
+            "C": "The sins of others",
+            "D": "The end times"
+          },
+          "answer": "B",
+          "image": null
+        },
+        {
+          "id": 30,
+          "question": "Who does Jesus say feeds the birds of the air?",
+          "options": {
+            "A": "Farmers",
+            "B": "Your heavenly Father",
+            "C": "The earth",
+            "D": "The rain"
+          },
+          "answer": "B",
+          "image": null
+        },
+        {
+          "id": 31,
+          "question": "What did Jesus say about the lilies of the field?",
+          "options": {
+            "A": "They toil and spin",
+            "B": "They are more beautiful than Solomon's glory",
+            "C": "They need no water",
+            "D": "They are useless"
+          },
+          "answer": "B",
+          "image": null
+        },
+        {
+          "id": 32,
+          "question": "What is the Gentiles' (pagans') main concern according to Matthew 6:32?",
+          "options": {
+            "A": "Spiritual things",
+            "B": "The kingdom of God",
+            "C": "Food, drink, and clothing",
+            "D": "Helping others"
+          },
+          "answer": "C",
+          "image": null
+        },
+        {
+          "id": 33,
+          "question": "We should seek first ______ and His righteousness.",
+          "options": {
+            "A": "our happiness",
+            "B": "the church",
+            "C": "the kingdom of God",
+            "D": "our family's welfare"
+          },
+          "answer": "C",
+          "image": null
+        },
+        {
+          "id": 34,
+          "question": "Simon Peter's brother was named ______.",
+          "options": {
+            "A": "James",
+            "B": "John",
+            "C": "Andrew",
+            "D": "Philip"
+          },
+          "answer": "C",
+          "image": null
+        },
+        {
+          "id": 35,
+          "question": "Which pair of brothers were called the \"Sons of Thunder\"?",
+          "options": {
+            "A": "Peter and Andrew",
+            "B": "James and John",
+            "C": "Philip and Bartholomew",
+            "D": "James and Jude"
+          },
+          "answer": "B",
+          "image": null
+        },
+        {
+          "id": 36,
+          "question": "After the miraculous catch of fish, what was Simon Peter's reaction to Jesus? (Lk 5:8)",
+          "options": {
+            "A": "\"Let's fish some more!\"",
+            "B": "\"Go away from me, Lord; I am a sinful man!\"",
+            "C": "\"Will you stay with us?\"",
+            "D": "\"Teach us to pray.\""
+          },
+          "answer": "B",
+          "image": null
+        },
+        {
+          "id": 37,
+          "question": "What did Jesus say the disciples would become if they followed Him?",
+          "options": {
+            "A": "\"Fishers of fish\"",
+            "B": "\"Fishers of men\"",
+            "C": "\"Great teachers\"",
+            "D": "\"Healers of the sick\""
+          },
+          "answer": "B",
+          "image": null
+        },
+        {
+          "id": 38,
+          "question": "Which apostle is also called Nathanael in the Bible?",
+          "options": {
+            "A": "Matthew",
+            "B": "Thomas",
+            "C": "Bartholomew",
+            "D": "Thaddaeus"
+          },
+          "answer": "C",
+          "image": null
+        },
+        {
+          "id": 39,
+          "question": "In the call of the Twelve, Jesus gave them authority to do all EXCEPT?",
+          "options": {
+            "A": "Drive out demons",
+            "B": "Heal every disease",
+            "C": "Forgive sins",
+            "D": "Preach"
+          },
+          "answer": "C",
+          "image": null
+        },
+        {
+          "id": 40,
+          "question": "What did the man in Luke 9:61 want to do before following Jesus?",
+          "options": {
+            "A": "Get married",
+            "B": "Say goodbye to his family",
+            "C": "Sell his farm",
+            "D": "Finish his education"
+          },
+          "answer": "B",
+          "image": null
+        },
+        {
+          "id": 41,
+          "question": "What is the reward for those who mourn (Matt 5:4)?",
+          "options": {
+            "A": "They will inherit the earth",
+            "B": "They will be filled",
+            "C": "They will be shown mercy",
+            "D": "They will be comforted"
+          },
+          "answer": "D",
+          "image": null
+        },
+        {
+          "id": 42,
+          "question": "\"Blessed are those who hunger and thirst for righteousness, for they will be ______.\"",
+          "options": {
+            "A": "satisfied",
+            "B": "called sons of God",
+            "C": "shown mercy",
+            "D": "pure in heart"
+          },
+          "answer": "A",
+          "image": null
+        },
+        {
+          "id": 43,
+          "question": "\"Blessed are the merciful, for they will be shown ______.\"",
+          "options": {
+            "A": "love",
+            "B": "mercy",
+            "C": "kindness",
+            "D": "favour"
+          },
+          "answer": "B",
+          "image": null
+        },
+        {
+          "id": 44,
+          "question": "What should we do with our light (good works)?",
+          "options": {
+            "A": "Hide it",
+            "B": "Put it under a bowl",
+            "C": "Let it shine before men",
+            "D": "Use it only at home"
+          },
+          "answer": "C",
+          "image": null
+        },
+        {
+          "id": 45,
+          "question": "The teaching \"Do not resist an evil person\" is found in Matthew chapter ___.",
+          "options": {
+            "A": "4",
+            "B": "5",
+            "C": "6",
+            "D": "7"
+          },
+          "answer": "B",
+          "image": null
+        },
+        {
+          "id": 46,
+          "question": "How many times did Peter ask if he should forgive his brother?",
+          "options": {
+            "A": "Three times",
+            "B": "Seven times",
+            "C": "Seventy times seven",
+            "D": "Seventy-seven times"
+          },
+          "answer": "C",
+          "image": null
+        },
+        {
+          "id": 47,
+          "question": "Jesus said we should not worry about tomorrow because ______.",
+          "options": {
+            "A": "tomorrow may not come",
+            "B": "tomorrow will worry about itself",
+            "C": "we have enough for today",
+            "D": "God is not concerned with tomorrow"
+          },
+          "answer": "B",
+          "image": null
+        },
+        {
+          "id": 48,
+          "question": "Which book records the call of the first disciples while they were casting a net?",
+          "options": {
+            "A": "Matthew only",
+            "B": "Mark only",
+            "C": "Luke only",
+            "D": "Both Matthew and Mark"
+          },
+          "answer": "D",
+          "image": null
+        },
+        {
+          "id": 49,
+          "question": "What did James and John immediately do when Jesus called them?",
+          "options": {
+            "A": "Asked their father's permission",
+            "B": "Left their father Zebedee in the boat",
+            "C": "Finished mending the nets",
+            "D": "Went home to collect money"
+          },
+          "answer": "B",
+          "image": null
+        },
+        {
+          "id": 50,
+          "question": "Jesus said, \"Foxes have holes and birds of the air have nests, but the Son of Man has ______.\"",
+          "options": {
+            "A": "many houses",
+            "B": "no place to lay his head",
+            "C": "a throne in heaven",
+            "D": "a home in Bethany"
+          },
+          "answer": "B",
+          "image": null
+        }
+];
+
+
+        const staticTheoryQuestions = [
+                                                  {
+                            "id": 1,
+                            "question": "a. Narrate the call of the first four disciples as recorded in Matthew 4:18-22. \n\n b. State two reasons why Jesus called fishermen among His first disciples. \n\n c. Mention two qualities of a good disciple as shown by the immediate response of Peter, Andrew, James, and John.",
+                            "marks": 12.5,
+                            "image": null
+                          },
+                          {
+                            "id": 2,
+                            "question": "a. From Mark 3:13-19, list any six of the twelve apostles Jesus appointed. \n\n b. Explain two reasons why Jesus chose twelve apostles. \n\n c. Identify one significant fact about any two of the apostles you listed in (a).",
+                            "marks": 12.5,
+                            "image": null
+                          },
+                          {
+                            "id": 3,
+                            "question": "a. What three demands did Jesus make from would-be followers in Luke 9:57-62? \n\n b. Explain what Jesus meant when He said, \"No one who puts a hand to the plow and looks back is fit for service in the kingdom of God.\" \n\n c. According to Luke 14:25-33, why must a disciple of Jesus 'count the cost'?",
+                            "marks": 12.5,
+                            "image": null
+                          },
+                          {
+                            "id": 4,
+                            "question": "a. Mention any five of the eight Beatitudes from Matthew 5:3-10. \n\n b. Explain the meaning of \"Blessed are the meek, for they will inherit the earth.\" \n\n c. How can a Christian student show that he/she is \"pure in heart\" in school?",
+                            "marks": 12.5,
+                            "image": null
+                          },
+                          {
+                            "id": 5,
+                            "question": "a. Explain what Jesus meant when He said, \"You are the salt of the earth\" (Matt 5:13). \n\n b. In what two ways can a Christian function as \"the light of the world\" (Matt 5:14-16)? \n\n c. What happens when a Christian fails to be salt and light in his/her community?",
+                            "marks": 12.5,
+                            "image": null
+                          },
+                          {
+                            "id": 6,
+                            "question": "a. Summarize Jesus' teaching on revenge as contained in Matthew 5:38-42. \n\n b. State two practical ways a Christian student can apply the principle of \"turning the other cheek\" when offended by a classmate. \n\n c. Why is Jesus' teaching on non-retaliation considered a higher standard than the Old Testament law?",
+                            "marks": 12.5,
+                            "image": null
+                          },
+                          {
+                            "id": 7,
+                            "question": "a. Identify three key teachings of Jesus on prayer from Matthew 6:5-15. \n\n b. What two reasons did Jesus give for not worrying about material needs like food and clothing (Matt 6:25-34)? \n\n c. According to Matthew 6:19-24, why is it impossible to serve both God and money?",
+                            "marks": 12.5,
+                            "image": null
+                          }
+];
+
+    // ================== EXAM VARIABLES ==================
+    let questions = [];
+    let currentQuestion = 0;
+    let userAnswers = [];
+    let theoryQuestions = [];
+    let currentTheory = 0;
+    let theoryAnswers = [];
+    let currentSection = 'objectives';
+    let timeLeft = 90 * 60; // 90 minutes
+    let timerInterval;
+
+    // ================== INITIALIZATION ==================
+    window.onload = function () {
+        questions = staticObjectivesQuestions;
+        theoryQuestions = staticTheoryQuestions;
+        userAnswers = new Array(questions.length);
+        theoryAnswers = new Array(theoryQuestions.length).fill('');
+
+        updateDateTime();
+        setInterval(updateDateTime, 1000);
+        startTimer();
+        displayQuestion();
+        renderQuestionButtons();
+        countUserSelections();
+        updateTheoryStatus();
+        showSection('objectives');
+    };
+
+    function startTimer() {
+        const timerEl = document.getElementById('timer');
+        timerInterval = setInterval(() => {
+            const hours = Math.floor(timeLeft / 3600);
+            const minutes = Math.floor((timeLeft % 3600) / 60);
+            const seconds = timeLeft % 60;
+            let display = '';
+            if (hours > 0) display += `${hours} Hr:`;
+            if (minutes > 0 || hours > 0) display += `${minutes} Min: `;
+            display += `${seconds} Sec`;
+            timerEl.textContent = `Time Remaining: ${display}`;
+            timeLeft--;
+
+            if (timeLeft < 300) timerEl.style.color = 'red';
+            if (timeLeft < 0) {
+                clearInterval(timerInterval);
+                alert('Time is up! Submitting exam.');
+                submitExam();
+            }
+        }, 1000);
+    }
+
+    function showSection(section) {
+        currentSection = section;
+        document.getElementById('objectivesBtn').classList.toggle('active', section === 'objectives');
+        document.getElementById('theoryBtn').classList.toggle('active', section === 'theory');
+        document.getElementById('objectivesSection').style.display = section === 'objectives' ? 'block' : 'none';
+        document.getElementById('theorySection').style.display = section === 'theory' ? 'block' : 'none';
+        if (section === 'theory') displayTheoryQuestion();
+    }
+
+    // ================== OBJECTIVES ==================
+    function displayQuestion() {
+        const q = questions[currentQuestion];
+        document.getElementById('questionText').innerHTML = `${currentQuestion+1}. ${q.question}`;
+        const container = document.getElementById('optionsContainer');
+        container.innerHTML = '';
+        for (let [key, value] of Object.entries(q.options)) {
+            const checked = (userAnswers[currentQuestion] === key) ? 'checked' : '';
+            container.innerHTML += `
+                <label class="option">
+                    <input type="radio" name="option" value="${key}" ${checked} onchange="saveAnswer()"> ${key}. ${value}
+                </label>
+            `;
+        }
+        const imgContainer = document.getElementById('questionImageContainer');
+        imgContainer.innerHTML = q.image ? `<img src="${q.image}" style="max-width:100%; margin:10px 0;">` : '';
+        highlightCurrentButton();
+    }
+
+    function saveAnswer() {
+        const selected = document.querySelector('input[name="option"]:checked');
+        if (selected) userAnswers[currentQuestion] = selected.value;
+        countUserSelections();
+        highlightCurrentButton();
+    }
+
+    function nextQuestion() {
+        saveAnswer();
+        if (currentQuestion < questions.length-1) {
+            currentQuestion++;
+            displayQuestion();
+        }
+    }
+
+    function prevQuestion() {
+        saveAnswer();
+        if (currentQuestion > 0) {
+            currentQuestion--;
+            displayQuestion();
+        }
+    }
+
+    function renderQuestionButtons() {
+        const container = document.getElementById('questionButtons');
+        container.innerHTML = '';
+        for (let i = 0; i < questions.length; i++) {
+            const btn = document.createElement('button');
+            btn.textContent = i+1;
+            btn.className = 'question-btn';
+            btn.onclick = () => { saveAnswer(); currentQuestion = i; displayQuestion(); };
+            container.appendChild(btn);
+        }
+        highlightCurrentButton();
+    }
+
+    function highlightCurrentButton() {
+        const btns = document.querySelectorAll('.question-btn');
+        btns.forEach((btn, idx) => {
+            const answered = userAnswers[idx] !== undefined;
+            const current = idx === currentQuestion;
+            btn.style.backgroundColor = current ? '#5cb85c' : (answered ? '#337ab7' : '#eee');
+            btn.style.color = current || answered ? 'white' : 'black';
+        });
+    }
+
+    function countUserSelections() {
+        const answered = userAnswers.filter(a => a !== undefined).length;
+        document.getElementById('answeredLabel').innerText = `Answered: ${answered}/${questions.length}`;
+        document.getElementById('unansweredLabel').innerText = `Unanswered: ${questions.length - answered}`;
+    }
+
+    // ================== THEORY ==================
+    function displayTheoryQuestion() {
+        const tq = theoryQuestions[currentTheory];
+        document.getElementById('theoryQuestionText').innerHTML = `${currentTheory+1}. ${tq.question} [${tq.marks} marks]`;
+        document.getElementById('theoryAnswer').value = theoryAnswers[currentTheory] || '';
+        const imgContainer = document.getElementById('theoryImageContainer');
+        imgContainer.innerHTML = tq.image ? `<img src="${tq.image}" style="max-width:100%;">` : '';
+        updateTheoryStatus();
+    }
+
+    function saveTheoryAnswer() {
+        theoryAnswers[currentTheory] = document.getElementById('theoryAnswer').value.trim();
+        updateTheoryStatus();
+        alert('Answer saved.');
+    }
+
+    function updateTheoryStatus() {
+        const saved = theoryAnswers.filter(a => a !== '').length;
+        document.getElementById('theoryStatus').innerText = `Question ${currentTheory+1} of ${theoryQuestions.length} | Saved: ${saved}/${theoryQuestions.length}`;
+    }
+
+    function nextTheoryQuestion() {
+        if (currentTheory < theoryQuestions.length-1) {
+            currentTheory++;
+            displayTheoryQuestion();
+        } else alert('You are at the last theory question.');
+    }
+
+    function prevTheoryQuestion() {
+        if (currentTheory > 0) {
+            currentTheory--;
+            displayTheoryQuestion();
+        }
+    }
+
+    // ================== SUBMIT EXAM ==================
+    function submitExam() {
+        if (currentSection === 'objectives') saveAnswer();
+        else saveTheoryAnswer();
+
+        const objectiveScore = questions.reduce((score, q, i) => score + (userAnswers[i] === q.answer ? 1 : 0), 0);
+        const totalQuestions = questions.length;
+        const percentage = ((objectiveScore / totalQuestions) * 100).toFixed(2);
+
+        const record = {
+            username: studentUsername,
+            class: studentClass,
+            subject: "CRS",
+            score: objectiveScore,
+            totalQuestions: totalQuestions,
+            percentage: percentage + '%',
+            examInfo: `${studentClass?.toUpperCase() || 'JSS1'} CRS EXAM - ${new Date().toLocaleDateString()}`,
+            timestamp: new Date().toISOString(),
+            theoryAnswers: theoryAnswers
+        };
+
+        // Optional: send to Google Sheets
+        const API_URL = 'https://script.google.com/macros/s/AKfycbzW4zlbuW16fAFRcwg4ow8b6IAQEp4e2zIqLjL7zhdkkHvEDrDwwxT0PX46dwBIiXgm/exec';
+        fetch(API_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(record)
+        }).catch(e => console.error('Sheet save error:', e));
+
+        // Local backup
+        let records = JSON.parse(localStorage.getItem('examRecords') || '[]');
+        records.push(record);
+        localStorage.setItem('examRecords', JSON.stringify(records));
+
+        // Download JSON
+        const blob = new Blob([JSON.stringify(record, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `exam_${studentUsername}_${Date.now()}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+
+        alert(`Exam submitted!\nScore: ${objectiveScore}/${totalQuestions} (${percentage}%)`);
+        clearInterval(timerInterval);
+        window.location.href = 'jss1_dashboard.html';
+    }
+
+    // ================== DATE & TIME ==================
+    function updateDateTime() {
+        const now = new Date();
+        const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+        document.getElementById('datetime').innerText = now.toLocaleDateString(undefined, options);
+    }
+
+    // ================== LOGOUT ==================
+    function logout() {
+        localStorage.clear(); // optional: clear only specific items
+        window.location.href = 'login.html';
+    }
+
+    // ================== ANTI-CHEAT ==================
+    document.addEventListener('keydown', function(e) {
+        if (currentSection === 'objectives') {
+            const key = e.key.toUpperCase();
+            if (['A','B','C','D'].includes(key)) {
+                const radio = document.querySelector(`input[name="option"][value="${key}"]`);
+                if (radio) { radio.checked = true; saveAnswer(); }
+            }
+            if (e.key === 'ArrowRight') nextQuestion();
+            if (e.key === 'ArrowLeft') prevQuestion();
+        } else if (currentSection === 'theory') {
+            if (e.key === 'ArrowRight') nextTheoryQuestion();
+            if (e.key === 'ArrowLeft') prevTheoryQuestion();
+            if (e.ctrlKey && e.key === 's') { e.preventDefault(); saveTheoryAnswer(); }
+        }
+        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I') || (e.ctrlKey && e.key === 'u')) {
+            e.preventDefault();
+            alert('Developer tools are disabled.');
+        }
+        if (e.ctrlKey && (e.key === 'p' || e.key === 's')) {
+            e.preventDefault();
+            alert('Printing and saving are disabled.');
+        }
+    });
+    document.addEventListener('contextmenu', e => { e.preventDefault(); alert('Right-click disabled.'); });
+</script>
+</body>
+</html>

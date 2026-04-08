@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>JSS2 Dashboard | Christ’s School</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* (same styles as before, no changes needed) */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: url('img/school-bg.png') no-repeat center center fixed;
+            background-size: cover;
+            position: relative;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.65);
+            z-index: 0;
+        }
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            padding: 10px 25px;
+            border-radius: 60px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .student-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .student-info img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #ffb347;
+        }
+        .student-info span {
+            font-weight: bold;
+            color: #0a2f44;
+        }
+        .logout-top {
+            background: #d9534f;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+        .logout-top:hover {
+            background: #c9302c;
+        }
+        .school-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .school-header img {
+            width: 90px;
+            background: white;
+            border-radius: 50%;
+            padding: 5px;
+        }
+        h1 {
+            color: white;
+            margin-top: 10px;
+            font-size: 2rem;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+        }
+        .welcome-card {
+            background: white;
+            border-radius: 24px;
+            padding: 1rem 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .subject-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+        .subject-card {
+            background: white;
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        .subject-card:hover {
+            transform: translateY(-5px);
+        }
+        .subject-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #0a2f44;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #ffb347;
+            display: inline-block;
+        }
+        .password-input {
+            width: 100%;
+            padding: 10px;
+            margin: 15px 0;
+            border: 1px solid #ddd;
+            border-radius: 50px;
+        }
+        .exam-btn {
+            background: #0a2f44;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+        }
+        .exam-btn:hover {
+            background: #ffb347;
+            color: #0a2f44;
+        }
+        .logout-bottom {
+            background: #d9534f;
+            color: white;
+            padding: 10px 25px;
+            border-radius: 40px;
+            border: none;
+            cursor: pointer;
+            margin-top: 30px;
+            font-weight: bold;
+        }
+        footer {
+            text-align: center;
+            color: white;
+            margin-top: 40px;
+            font-size: 0.8rem;
+        }
+        @media (max-width: 700px) {
+            .subject-grid {
+                grid-template-columns: 1fr;
+            }
+            .top-bar {
+                flex-direction: column;
+                gap: 12px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- Top Bar with Student Image, Name and Logout -->
+    <div class="top-bar">
+        <div class="student-info">
+            <img id="studentAvatar" src="img/default.jpg" alt="Student Photo">
+            <span id="studentDisplayName"></span>
+        </div>
+        <button class="logout-top" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+    </div>
+
+    <div class="school-header">
+        <img src="img/logo.png" alt="School Logo">
+        <h1>JSS2 Dashboard</h1>
+    </div>
+    <div class="welcome-card">
+        <p>Welcome, <strong id="studentName">Student</strong>! Select a subject below and enter the subject password to begin your exam.</p>
+    </div>
+
+    <div class="subject-grid" id="subjectsContainer"></div>
+
+    <div style="text-align: center;">
+        <button class="logout-bottom" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+    </div>
+    <footer>Christ’s School Ado Ekiti – Christus Victor</footer>
+</div>
+
+<script>
+    // Retrieve student data from localStorage
+    const studentUsername = localStorage.getItem('studentUsername') || 'Student';
+    const studentImage = localStorage.getItem('studentImage') || 'default.jpg';
+
+    document.getElementById('studentName').innerText = studentUsername;
+    document.getElementById('studentDisplayName').innerText = studentUsername;
+
+    const avatarImg = document.getElementById('studentAvatar');
+    avatarImg.src = `img/${studentImage}`;
+    avatarImg.onerror = function() { this.src = 'img/default.jpg'; };
+
+    // ✅ CORRECTED SUBJECTS FOR JSS2 (no duplicates)
+    const subjects = [
+        { name: "Mathematics", password: "math101" },
+        { name: "English", password: "eng101" },
+        { name: "Integrated Science", password: "sci101" },
+        { name: "Basic Science", password: "basicsci101" },
+        { name: "French", password: "fre101" },
+        { name: "Music", password: "mus101" },          // only one Music entry
+        { name: "Agric Science", password: "agr101" },
+        { name: "Computer Studies", password: "csc101" },
+        { name: "Business Studies", password: "bus101" },
+        { name: "Social Studies", password: "sst101" },
+        { name: "Civic Education", password: "civ101" },
+        { name: "History", password: "his101" }
+    ];
+
+    const container = document.getElementById('subjectsContainer');
+    subjects.forEach(subject => {
+        const card = document.createElement('div');
+        card.className = 'subject-card';
+        // Generate a unique ID by sanitizing subject name
+        const sanitized = subject.name.replace(/\s/g, '_');
+        card.innerHTML = `
+            <div class="subject-title">${subject.name}</div>
+            <input type="password" id="pass-${sanitized}" class="password-input" placeholder="Enter ${subject.name} password">
+            <button class="exam-btn" onclick="verifyAndRedirect('${subject.name}', '${subject.password}')">Take Exam</button>
+        `;
+        container.appendChild(card);
+    });
+
+    function verifyAndRedirect(subjectName, correctPassword) {
+        const sanitized = subjectName.replace(/\s/g, '_');
+        const inputId = `pass-${sanitized}`;
+        const enteredPassword = document.getElementById(inputId).value.trim();
+        if (enteredPassword === correctPassword) {
+            window.location.href = `jss2_${subjectName.toLowerCase().replace(/\s/g, '_')}_exam.html`;
+        } else {
+            alert('Incorrect password for ' + subjectName + '. Please try again.');
+        }
+    }
+
+    function logout() {
+        localStorage.removeItem('studentUsername');
+        localStorage.removeItem('studentClass');
+        localStorage.removeItem('studentImage');
+        localStorage.removeItem('loggedInUser');
+        window.location.href = 'login.html';
+    }
+</script>
+</body>
+</html>
