@@ -218,7 +218,7 @@
 
 <script>
     const studentUsername = localStorage.getItem('studentUsername') || 'Student';
-    const studentClass = 'Jss1';
+    const studentClass = 'jss1';   // Junior class
     const studentImage = localStorage.getItem('studentImage') || 'default.jpg';
 
     document.getElementById('studentName').innerText = studentUsername;
@@ -227,22 +227,32 @@
     avatarImg.src = `img/${studentImage}`;
     avatarImg.onerror = function() { this.src = 'img/default.jpg'; };
 
+    // ======================= JSS1 SUBJECT PASSWORDS =======================
     const classSubjectPasswords = {
-        Jss1: {
-            mathematics: "math101",
-            english: "eng101",
-            Intermediate_science: "phy101",
-            business_studies: "che101",
-            social_studies: "bio101",
+        jss1: {
+            intermediate_science: "int101",
+            music: "mus101",
+            mathematics: "mat101",
+            french: "fre101",
             agric_science: "agr101",
-            computer_studies: "csc101",
-            french: "eco101",
-            music: "geo101",
+            livestock_farming: "liv101",
+            cultural_art: "art101",
+            history: "his101",
+            basic_science: "bas101",
+            basic_technology: "tec101",
+            yoruba: "yor101",
+            civic_education: "civ101",
+            citizenship_studies: "cit101",
+            fine_art: "fin101",
+            phe: "phe101",
             crs: "crs101",
-            Yoruba: "yor101"
+            social_studies: "soc101",
+            business_studies: "bus101",
+            digital_technology: "dig101"
         }
     };
 
+    // Helper functions
     function formatSubjectKey(subjectName) {
         return subjectName.toLowerCase().replace(/\s+/g, '_');
     }
@@ -251,6 +261,7 @@
         return subjectKey.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
     }
 
+    // ======================= EXAM ATTEMPT TRACKING =======================
     function getExamAttempts(cls) {
         const key = `${cls}_exam_attempts`;
         const stored = localStorage.getItem(key);
@@ -276,18 +287,27 @@
         saveExamAttempts(cls, attempts);
     }
 
+    // ======================= SUBJECT LIST =======================
     const subjects = [
-        { name: "mathematics", key: "mathematics" },
-        { name: "english", key: "english" },
-        { name: "intermediate_science", key: "Intermediate_science" },
-        { name: "business_studies", key: "business_studies" },
-        { name: "social_studies", key: "social_studies" },
-        { name: "agric Science", key: "agric_science" },
-        { name: "computer Studies", key: "computer_studies" },
-        { name: "french", key: "french" },
-        { name: "music", key: "music" },
-        { name: "crs", key: "crs" },
-        { name: "Yoruba", key: "Yoruba" }
+        { name: "Intermediate Science", key: "intermediate_science" },
+        { name: "Music", key: "music" },
+        { name: "Mathematics", key: "mathematics" },
+        { name: "French", key: "french" },
+        { name: "Agric Science", key: "agric_science" },
+        { name: "Livestock Farming", key: "livestock_farming" },
+        { name: "Cultural Art", key: "cultural_art" },
+        { name: "History", key: "history" },
+        { name: "Basic Science", key: "basic_science" },
+        { name: "Basic Technology", key: "basic_technology" },
+        { name: "Yoruba", key: "yoruba" },
+        { name: "Civic Education", key: "civic_education" },
+        { name: "Citizenship Studies", key: "citizenship_studies" },
+        { name: "Fine Art", key: "fine_art" },
+        { name: "PHE", key: "phe" },
+        { name: "CRS", key: "crs" },
+        { name: "Social Studies", key: "social_studies" },
+        { name: "Business Studies", key: "business_studies" },
+        { name: "Digital Technology", key: "digital_technology" }
     ];
 
     const container = document.getElementById('subjectsContainer');
@@ -314,6 +334,7 @@
         container.appendChild(card);
     });
 
+    // ======================= START EXAM FUNCTION =======================
     async function startExam(subjectKey, subjectDisplay) {
         const passwordInput = document.getElementById(`pass-${subjectKey}`);
         const enteredPassword = passwordInput.value.trim();
@@ -339,7 +360,7 @@
         sessionStorage.setItem("subject", subjectKey);
         sessionStorage.setItem("subjectDisplay", subjectDisplay);
         sessionStorage.setItem("type", "objective");
-        sessionStorage.setItem("examInfo", `${subjectDisplay} - JSS1 (THIRD TERM)`);
+        sessionStorage.setItem("examInfo", `${subjectDisplay} - JSS1 (SECOND TERM)`);
         
         localStorage.setItem("examClass", studentClass);
         localStorage.setItem("examSubject", subjectDisplay);
@@ -363,6 +384,7 @@
         }
     }
     
+    // ======================= LOGOUT =======================
     function logout() {
         if (confirm("Are you sure you want to logout? Your exam progress will be saved.")) {
             localStorage.removeItem('studentUsername');
@@ -373,6 +395,7 @@
         }
     }
     
+    // Expose functions for exam pages
     window.markExamCompleted = function(subjectKey) {
         markExamCompleted(studentClass, subjectKey, studentUsername);
         const btn = document.getElementById(`btn-${subjectKey}`);
@@ -394,7 +417,7 @@
         return sessionStorage.getItem("subject") || localStorage.getItem("examSubject")?.toLowerCase().replace(/\s+/g, '_');
     };
     
-    console.log("Dashboard ready. Attempt tracking active for", studentUsername);
+    console.log("JSS1 Dashboard ready. Attempt tracking active for", studentUsername);
 </script>
 </body>
 </html>
