@@ -1,4 +1,4 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -7,14 +7,13 @@
     <title>cbt.christ's schools.org</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Keep all your existing styles intact */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-       
+
         :root {
             --primary-color: #008000;
             --secondary-color: #d90000;
@@ -26,7 +25,7 @@
             --nav-bg: #006400;
             --input-border: #ddd;
         }
-       
+
         .dark-theme {
             --primary-color: #4CAF50;
             --secondary-color: #ff5252;
@@ -38,11 +37,12 @@
             --nav-bg: #1b5e20;
             --input-border: #555;
         }
+
         body {
             position: relative;
             z-index: 1;
         }
-       
+
         body::before {
             content: "";
             position: fixed;
@@ -55,24 +55,21 @@
             opacity: 0.1;
             z-index: 0;
             pointer-events: none;
-            background-color: white;
-            align-items: center;
-            text-align: center;
         }
-       
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
         }
-       
+
         nav {
             background-color: var(--nav-bg);
             padding: 15px 0;
             margin-bottom: 25px;
             border-radius: 8px;
         }
-       
+
         #student-image {
             width: 75px;
             height: 75px;
@@ -81,7 +78,7 @@
             margin: 0 auto;
             margin-bottom: 10px;
         }
-       
+
         header {
             background-color: darkblue;
             color: var(--header-text);
@@ -91,14 +88,14 @@
             margin-bottom: 25px;
             position: relative;
         }
-       
+
         .logo-container {
             display: flex;
             justify-content: center;
             align-items: center;
             margin-bottom: 15px;
         }
-       
+
         .logo {
             width: 80px;
             height: 80px;
@@ -112,7 +109,13 @@
             color: var(--primary-color);
             border: 2px solid var(--secondary-color);
         }
-       
+
+        .logo img {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+        }
+
         .welcome-message {
             background-color: var(--card-bg);
             padding: 15px;
@@ -123,7 +126,7 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             text-align: center;
         }
-       
+
         .welcome-message img {
             width: 120px;
             height: 120px;
@@ -132,14 +135,14 @@
             margin: 0 auto;
             border: 3px solid var(--primary-color);
         }
-       
+
         .exam-sections {
             display: flex;
             gap: 25px;
             margin-bottom: 25px;
             flex-wrap: wrap;
         }
-       
+
         .exam-section {
             background-color: var(--card-bg);
             border-radius: 8px;
@@ -148,7 +151,7 @@
             overflow: hidden;
             min-width: 300px;
         }
-       
+
         .section-header {
             background-color: darkblue;
             color: var(--header-text);
@@ -156,11 +159,11 @@
             font-size: 18px;
             font-weight: bold;
         }
-       
+
         .section-body {
             padding: 25px;
         }
-       
+
         select, input[type="password"] {
             width: 100%;
             max-width: 400px;
@@ -173,7 +176,7 @@
             background-color: var(--card-bg);
             color: var(--text-color);
         }
-       
+
         .btn {
             background-color: var(--primary-color);
             color: white;
@@ -186,27 +189,27 @@
             transition: background-color 0.3s;
             margin: 5px;
         }
-       
+
         .btn:hover {
             background-color: var(--nav-bg);
         }
-       
+
         .btn-secondary {
             background-color: #007bff;
         }
-       
+
         .btn-secondary:hover {
             background-color: #0056b3;
         }
-       
+
         .btn-danger {
             background-color: #dc3545;
         }
-       
+
         .btn-danger:hover {
             background-color: #c82333;
         }
-       
+
         .windows-activate {
             text-align: center;
             margin-top: 30px;
@@ -217,13 +220,13 @@
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
-       
+
         @media (max-width: 900px) {
             .exam-sections {
                 flex-direction: column;
             }
         }
-       
+
         .logout-btn {
             position: absolute;
             right: 20px;
@@ -235,7 +238,7 @@
             border-radius: 5px;
             cursor: pointer;
         }
-       
+
         .admin-btn {
             position: absolute;
             left: 20px;
@@ -247,7 +250,7 @@
             border-radius: 5px;
             cursor: pointer;
         }
-       
+
         .attempt-status {
             background-color: #fff3cd;
             border: 1px solid #ffeaa7;
@@ -257,24 +260,33 @@
             text-align: center;
             font-weight: bold;
         }
-       
+
         .completed {
             background-color: #d4edda;
             border-color: #c3e6cb;
             color: #155724;
         }
-       
+
         .available {
             background-color: #d1ecf1;
             border-color: #bee5eb;
             color: #0c5460;
+        }
+
+        .message {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .message h1 {
+            color: blue;
+            font-size: 1.6rem;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-           
             <button class="logout-btn" onclick="logout()">Logout</button>
             <div class="logo-container">
                 <div class="logo">
@@ -283,50 +295,75 @@
             </div>
             <p>2025/2026 SECOND TERM COMPUTER BASED TEST EXAMINATION</p>
         </header>
-       
+
         <div class="welcome-message">
-            <img id="userImage" src="img/default_user.jpg" alt="Student Photo"><br>
+            <img id="userImage" src="img/default.jpg" alt="Student Photo">
             <h2>WELCOME: <span id="user">Student</span></h2>
             <div id="attemptStatus" class="attempt-status"></div>
         </div>
 
-    <div class="container">
-        <!-- School Logo -->
-
-
-        <!-- Message -->
-        <p class="message">
-           <center> <h1 style="color: BLUE; ">QUESTIONS FOR THE SELECTED SUBJECT HAVE NOT BEEN UPLOADED YET.<br>PLEASE CHECK BACK IN THE NEXT FEW MINUTES LATER THANKS!!!</h1></center>
-          
-        </p>
+        <!-- Message about missing questions -->
+        <div class="message">
+            <h1 style="color: blue;">QUESTIONS FOR THE SELECTED SUBJECT HAVE NOT BEEN UPLOADED YET.<br>PLEASE CHECK BACK IN THE NEXT FEW MINUTES. THANKS!</h1>
+        </div>
 
         <!-- OK Button -->
-             <center>
+        <center>
             <button class="btn" id="startExamBtn" onclick="logout()">
                 <i class="fa-solid fa-play"></i> OK
             </button>
         </center>
     </div>
-    <script >
-          const username = sessionStorage.getItem('username');
-        const imageName = sessionStorage.getItem('image');
-        const password = sessionStorage.getItem('password');
-       
-         Redirect if not logged in
+
+    <script>
+        // ======================= FIXED: USE localStorage (consistent with your dashboards) =======================
+        const username = localStorage.getItem('studentUsername');
+        const imageName = localStorage.getItem('studentImage');
+
+        // Redirect if not logged in
         if (!username) {
             alert("Please log in first.");
             window.location.href = "login.html";
         }
-       document.getElementById('user').innerText = username || 'Student';
-        document.getElementById('userImage').src = imageName ? 'img/' + imageName : 'img/default_user.jpg';
 
+        // Display username
+        document.getElementById('user').innerText = username || 'Student';
+
+        // Display image (fallback to default.jpg)
+        const imgElement = document.getElementById('userImage');
+        if (imageName) {
+            imgElement.src = 'img/' + imageName;
+            imgElement.onerror = function() {
+                this.src = 'img/default.jpg';
+            };
+        } else {
+            imgElement.src = 'img/default.jpg';
+        }
+
+        // Optional: show attempt status (if needed)
+        const studentClass = localStorage.getItem('studentClass') || 'jss1';
+        const attemptsKey = `${studentClass}_exam_attempts`;
+        const attempts = JSON.parse(localStorage.getItem(attemptsKey) || '{}');
+        const userAttempts = attempts[username] || {};
+        const completedCount = Object.values(userAttempts).filter(v => v === true).length;
+        const statusDiv = document.getElementById('attemptStatus');
+        if (statusDiv) {
+            statusDiv.innerHTML = `📊 You have completed ${completedCount} exam(s).`;
+            statusDiv.classList.add(completedCount > 0 ? 'completed' : 'available');
+        }
+
+        // ======================= LOGOUT FUNCTION =======================
         function logout() {
-            const confirmLogout = confirm("About to return to home page ? ");
+            const confirmLogout = confirm("Are you sure you want to logout?");
             if (confirmLogout) {
+                // Clear session data (keep exam attempts stored)
+                localStorage.removeItem('studentUsername');
+                localStorage.removeItem('studentClass');
+                localStorage.removeItem('studentImage');
+                localStorage.removeItem('loggedInUser');
                 window.location.href = "login.html";
             }
         }
     </script>
-
 </body>
 </html>
